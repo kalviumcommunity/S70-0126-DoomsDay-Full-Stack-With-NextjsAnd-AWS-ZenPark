@@ -219,3 +219,33 @@ Pull Requests required before merge
 GitHub Issues for task tracking
 
 GitHub Projects (Kanban)
+## 🚀 Lesson: Next.js Rendering Strategies
+This project demonstrates three powerful rendering strategies available in the Next.js App Router.
+
+### 1. Static Site Generation (SSG)
+- **Page**: `/ssg`
+- **Implementation**: `fetch(..., { cache: 'force-cache' })` and `export const dynamic = 'force-static'`
+- **Behavior**: The data is fetched ONCE at build time. The same HTML (and dog image) is served to every user.
+- **Use Case**: Marketing pages, blogs, documentation.
+- **Performance**: Fastest (served from CDN/cache).
+
+### 2. Server-Side Rendering (SSR)
+- **Page**: `/ssr`
+- **Implementation**: `fetch(..., { cache: 'no-store' })` and `export const dynamic = 'force-dynamic'`
+- **Behavior**: The data is fetched ON EVERY REQUEST. Users see a new dog image on every refresh.
+- **Use Case**: Personalized dashboards, real-time data, authenticated routes.
+- **Performance**: Slower (server must compute each request), but always fresh.
+
+### 3. Incremental Static Regeneration (ISR)
+- **Page**: `/isr`
+- **Implementation**: `fetch(..., { next: { revalidate: 10 } })` and `export const revalidate = 10`
+- **Behavior**: The page is static but regenerates in the background every 10 seconds.
+- **Use Case**: News feeds, e-commerce listings, changing content that doesn't need to be instant.
+- **Performance**: Fast (served from cache) with periodic updates.
+
+### Reflection
+**"What would change if your app had 10x more users — would you still use SSR everywhere, or move to static caching?"**
+
+If this app had 10x or 100x more users, relying solely on **SSR** would be expensive and slow, as every single page view hits the server and database.
+- **Move to SSG/ISR**: For public content (like parking site lists or blogs), we would move to **ISR**. This reduces the database load from 10,000 requests to just 1 request every 60 seconds, regardless of traffic.
+- **Keep SSR**: For the user dashboard (`/dashboard`) or booking confirmation, we must keep **SSR** (or client-side fetching) because the data is unique to each user.
