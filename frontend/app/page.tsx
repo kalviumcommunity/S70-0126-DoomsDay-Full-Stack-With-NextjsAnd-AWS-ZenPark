@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 
 export default function Home() {
@@ -7,7 +6,21 @@ export default function Home() {
       <main className="max-w-4xl w-full flex flex-col items-center gap-12">
         <div className="text-center space-y-4">
           <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-            Next.js Rendering Strategies
+            This project demonstrates Next.js rendering strategies. Check out
+            the&nbsp;
+            <Link href="/ssg" className="text-blue-500 hover:underline">
+              SSG
+            </Link>
+            ,&nbsp;
+            <Link href="/ssr" className="text-blue-500 hover:underline">
+              SSR
+            </Link>
+            , and&nbsp;
+            <Link href="/isr" className="text-blue-500 hover:underline">
+              ISR
+            </Link>
+            &nbsp;pages to see them in action. We&apos;re also adding AWS
+            integration soon!
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400">
             Explore the three main rendering patterns in Next.js App Router.
@@ -24,7 +37,8 @@ export default function Home() {
               Static Rendering (SSG) &rarr;
             </h2>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-              Generated at <strong>build time</strong>. Great for marketing pages, blogs, and content that doesn't change often.
+              Generated at <strong>build time</strong>. Great for marketing
+              pages, blogs, and content that doesn&apos;t change often.
             </p>
             <div className="mt-6 inline-block px-3 py-1 text-xs font-semibold tracking-wider text-blue-800 bg-blue-100 rounded-full">
               FASTEST
@@ -40,7 +54,8 @@ export default function Home() {
               server-Side Rendering (SSR) &rarr;
             </h2>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-              Generated at <strong>request time</strong>. Essential for personalized dashboards and real-time data.
+              Generated at <strong>request time</strong>. Essential for
+              personalized dashboards and real-time data.
             </p>
             <div className="mt-6 inline-block px-3 py-1 text-xs font-semibold tracking-wider text-red-800 bg-red-100 rounded-full">
               REAL-TIME
@@ -56,7 +71,8 @@ export default function Home() {
               Hybrid Rendering (ISR) &rarr;
             </h2>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-              Static initially, updated <strong>periodically</strong>. Best of both worlds for news feeds and product listings.
+              Static initially, updated <strong>periodically</strong>. Best of
+              both worlds for news feeds and product listings.
             </p>
             <div className="mt-6 inline-block px-3 py-1 text-xs font-semibold tracking-wider text-green-800 bg-green-100 rounded-full">
               BALANCED
@@ -66,7 +82,8 @@ export default function Home() {
 
         <div className="mt-12 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-900 text-center max-w-2xl">
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Pro Tip:</strong> Open your browser's Network tab and observe the difference in loading speed. Notice how SSG is instant!
+            <strong>Pro Tip:</strong> We&apos;re building something amazing just
+            for you. Sit tight!
           </p>
         </div>
       </main>
