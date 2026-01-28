@@ -30,8 +30,9 @@ export default function SettingsPage() {
             <div className="max-w-3xl mx-auto space-y-8">
                 <header className="flex items-center gap-4 mb-8">
                     <Link href="/dashboard">
-                        <Button variant="ghost" size="icon"><ArrowLeft className="w-6 h-6" /></Button>
+                        <Button variant="ghost" ><ArrowLeft className="w-6 h-6" /></Button>
                     </Link>
+                    {/* size="icon"  add above if need */}
                     <h1 className="text-3xl font-bold">Settings</h1>
                 </header>
 

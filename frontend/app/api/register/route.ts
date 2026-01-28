@@ -1,46 +1,47 @@
 import { prisma } from "@/lib/prisma";
 import { hash } from "bcryptjs";
-import { NextResponse } from "next/server";
-import { z } from "zod";
-
-const userSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(6),
-    role: z.enum(["DRIVER", "MANAGER"]), // Admin handled separately or manually promoted
-});
+import { userSchema } from "@/lib/schemas/userSchema";
+import { sendSuccess, sendError } from "@/lib/responseHandler";
+import { handleError } from "@/lib/errorHandler";
+import { ERROR_CODES } from "@/lib/errorCodes";
 
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { email, password, role } = userSchema.parse(body);
+        const validatedData = userSchema.parse(body);
+        const { email, password, role } = validatedData;
 
         const existingUser = await prisma.user.findUnique({
             where: { email },
         });
 
         if (existingUser) {
-            return NextResponse.json({ user: null, message: "User with this email already exists" }, { status: 409 });
+            return sendError(
+                "User with this email already exists",
+                ERROR_CODES.CONFLICT,
+                409
+            );
         }
 
         const hashedPassword = await hash(password, 10);
+
+        // Map UI roles to Database roles if necessary
+        const dbRole = role === "MANAGER" ? "ADMIN" : role === "ADMIN" ? "ADMIN" : "DRIVER";
 
         const newUser = await prisma.user.create({
             data: {
                 email,
                 password: hashedPassword,
-                role: role === "MANAGER" ? "ADMIN" : "DRIVER", // Map Manager UI choice to ADMIN role for now, or use MANAGER enum
+                role: dbRole,
             },
         });
 
         // Strip password
         const { password: newUserPassword, ...rest } = newUser;
 
-        return NextResponse.json({ user: rest, message: "User created successfully" }, { status: 201 });
+        return sendSuccess({ user: rest }, "User created successfully", 201);
 
     } catch (error) {
-        if (error instanceof z.ZodError) {
-            return NextResponse.json({ message: "Invalid input", errors: error.errors }, { status: 400 });
-        }
-        return NextResponse.json({ message: "Something went wrong" }, { status: 500 });
+        return handleError(error, "POST /api/register");
     }
 }

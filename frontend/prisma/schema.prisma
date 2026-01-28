@@ -110,3 +110,14 @@ model PricingRule {
   siteId      String
   site        Site    @relation(fields: [siteId], references: [id])
 }
+
+model File {
+  id        String   @id @default(uuid())
+  name      String
+  url       String
+  size      Int?
+  type      String?
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
