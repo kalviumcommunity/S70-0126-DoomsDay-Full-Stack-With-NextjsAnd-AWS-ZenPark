@@ -38,8 +38,8 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '**.amazonaws.com', // S3 Buckets
+        protocol: "https",
+        hostname: "images.dog.ceo",
       },
     ],
   },

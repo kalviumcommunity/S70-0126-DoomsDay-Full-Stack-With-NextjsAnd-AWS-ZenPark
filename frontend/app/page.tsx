@@ -1,9 +1,4 @@
-"use client";
-
-import { motion } from "framer-motion";
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { ShieldCheck, Zap, BarChart3, Bot, Map, Smartphone } from 'lucide-react';
+import Link from "next/link";
 
 export default function Home() {
   const containerVariants = {
@@ -22,10 +17,30 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-background to-secondary/20">
-        <div className="absolute inset-0 w-full h-full bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 dark:bg-zinc-900 p-8 font-sans">
+      <main className="max-w-4xl w-full flex flex-col items-center gap-12">
+        <div className="text-center space-y-4">
+          <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+            This project demonstrates Next.js rendering strategies. Check out
+            the&nbsp;
+            <Link href="/ssg" className="text-blue-500 hover:underline">
+              SSG
+            </Link>
+            ,&nbsp;
+            <Link href="/ssr" className="text-blue-500 hover:underline">
+              SSR
+            </Link>
+            , and&nbsp;
+            <Link href="/isr" className="text-blue-500 hover:underline">
+              ISR
+            </Link>
+            &nbsp;pages to see them in action. We&apos;re also adding AWS
+            integration soon!
+          </h1>
+          <p className="text-xl text-gray-600 dark:text-gray-400">
+            Explore the three main rendering patterns in Next.js App Router.
+          </p>
+        </div>
 
         <div className="container px-4 md:px-6 relative z-10 flex flex-col md:flex-row items-center gap-12">
           <motion.div
@@ -34,25 +49,17 @@ export default function Home() {
             animate="visible"
             className="flex-1 text-center md:text-left space-y-6"
           >
-            <motion.h1
-              variants={itemVariants}
-              className="text-4xl md:text-6xl font-bold tracking-tighter bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent"
-            >
-              Parking made <br /> <span className="text-foreground">Intelligent.</span>
-            </motion.h1>
-            <motion.p variants={itemVariants} className="text-xl text-muted-foreground md:max-w-[600px]">
-              The world's most advanced AI-powered parking management system.
-              Seamless for drivers, powerful for admins.
-            </motion.p>
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <Link href="/auth/signup">
-                <Button size="lg" className="w-full sm:w-auto text-lg px-8 h-12">Get Started</Button>
-              </Link>
-              <Link href="/auth/signin">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto text-lg px-8 h-12">Sign In</Button>
-              </Link>
-            </motion.div>
-          </motion.div>
+            <h2 className="text-2xl font-bold text-blue-600 mb-4 group-hover:translate-x-1 transition-transform">
+              Static Rendering (SSG) &rarr;
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+              Generated at <strong>build time</strong>. Great for marketing
+              pages, blogs, and content that doesn&apos;t change often.
+            </p>
+            <div className="mt-6 inline-block px-3 py-1 text-xs font-semibold tracking-wider text-blue-800 bg-blue-100 rounded-full">
+              FASTEST
+            </div>
+          </Link>
 
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -60,84 +67,42 @@ export default function Home() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="flex-1 w-full max-w-[600px] relative"
           >
-            {/* Animated Car SVG */}
-            <svg viewBox="0 0 500 400" className="w-full h-auto drop-shadow-2xl">
-              <motion.path
-                d="M50,300 L450,300 L450,320 L50,320 Z"
-                fill="currentColor"
-                className="text-muted"
-              />
-              <motion.g
-                animate={{ y: [0, -5, 0] }}
-                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              >
-                {/* Car Body */}
-                <path d="M100,250 L350,250 L380,200 L300,150 L150,150 L80,200 Z" fill="currentColor" className="text-primary" />
-                <path d="M160,160 L290,160 L340,200 L120,200 Z" fill="currentColor" className="text-primary-foreground/90" />
-                <circle cx="140" cy="250" r="30" fill="currentColor" className="text-foreground" />
-                <circle cx="310" cy="250" r="30" fill="currentColor" className="text-foreground" />
-              </motion.g>
+            <h2 className="text-2xl font-bold text-red-600 mb-4 group-hover:translate-x-1 transition-transform">
+              server-Side Rendering (SSR) &rarr;
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+              Generated at <strong>request time</strong>. Essential for
+              personalized dashboards and real-time data.
+            </p>
+            <div className="mt-6 inline-block px-3 py-1 text-xs font-semibold tracking-wider text-red-800 bg-red-100 rounded-full">
+              REAL-TIME
+            </div>
+          </Link>
 
-              {/* AI Signal */}
-              <motion.circle
-                cx="225" cy="100" r="10"
-                fill="currentColor"
-                className="text-purple-500"
-                animate={{ opacity: [0, 1, 0], scale: [1, 2, 1] }}
-                transition={{ repeat: Infinity, duration: 2 }}
-              />
-              <motion.path
-                d="M225,100 L225,150"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="text-purple-500"
-                strokeDasharray="5,5"
-              />
-            </svg>
-          </motion.div>
+          {/* Card 3: ISR */}
+          <Link
+            href="/isr"
+            className="group block p-8 bg-white dark:bg-black rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-sm hover:shadow-xl hover:border-green-500 transition-all duration-300"
+          >
+            <h2 className="text-2xl font-bold text-green-600 mb-4 group-hover:translate-x-1 transition-transform">
+              Hybrid Rendering (ISR) &rarr;
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+              Static initially, updated <strong>periodically</strong>. Best of
+              both worlds for news feeds and product listings.
+            </p>
+            <div className="mt-6 inline-block px-3 py-1 text-xs font-semibold tracking-wider text-green-800 bg-green-100 rounded-full">
+              BALANCED
+            </div>
+          </Link>
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="py-24 bg-muted/50">
-        <div className="container px-4 md:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            <FeatureCard
-              icon={<Map className="w-10 h-10 text-primary" />}
-              title="Global Search"
-              description="Find parking spots anywhere with our interactive map and real-time availability filters."
-            />
-            <FeatureCard
-              icon={<Smartphone className="w-10 h-10 text-purple-500" />}
-              title="Digital Twin"
-              description="Visualize parking lots in detail. See exactly which spot you're booking."
-            />
-            <FeatureCard
-              icon={<Zap className="w-10 h-10 text-yellow-500" />}
-              title="Instant Booking"
-              description="Book in seconds. seamless payments and digital tickets right on your phone."
-            />
-            <FeatureCard
-              icon={<Bot className="w-10 h-10 text-green-500" />}
-              title="ZenBot AI"
-              description="Your personal parking assistant. Ask about availability, pricing, or directions."
-            />
-            <FeatureCard
-              icon={<BarChart3 className="w-10 h-10 text-blue-500" />}
-              title="Admin Analytics"
-              description="Deep insights into occupancy, revenue, and peak hours for lot managers."
-            />
-            <FeatureCard
-              icon={<ShieldCheck className="w-10 h-10 text-red-500" />}
-              title="Secure & Reliable"
-              description="Enterprise-grade security with role-based access and encrypted data."
-            />
-          </motion.div>
+        <div className="mt-12 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-900 text-center max-w-2xl">
+          <p className="text-sm text-blue-800 dark:text-blue-200">
+            <strong>Pro Tip:</strong> We&apos;re building something amazing just
+            for you. Sit tight!
+          </p>
         </div>
       </section>
     </div>
