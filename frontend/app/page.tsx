@@ -1,6 +1,21 @@
 import Link from "next/link";
 
 export default function Home() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 dark:bg-zinc-900 p-8 font-sans">
       <main className="max-w-4xl w-full flex flex-col items-center gap-12">
@@ -27,11 +42,12 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-          {/* Card 1: SSG */}
-          <Link
-            href="/ssg"
-            className="group block p-8 bg-white dark:bg-black rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-sm hover:shadow-xl hover:border-blue-500 transition-all duration-300"
+        <div className="container px-4 md:px-6 relative z-10 flex flex-col md:flex-row items-center gap-12">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="flex-1 text-center md:text-left space-y-6"
           >
             <h2 className="text-2xl font-bold text-blue-600 mb-4 group-hover:translate-x-1 transition-transform">
               Static Rendering (SSG) &rarr;
@@ -45,10 +61,11 @@ export default function Home() {
             </div>
           </Link>
 
-          {/* Card 2: SSR */}
-          <Link
-            href="/ssr"
-            className="group block p-8 bg-white dark:bg-black rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-sm hover:shadow-xl hover:border-red-500 transition-all duration-300"
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="flex-1 w-full max-w-[600px] relative"
           >
             <h2 className="text-2xl font-bold text-red-600 mb-4 group-hover:translate-x-1 transition-transform">
               server-Side Rendering (SSR) &rarr;
@@ -79,6 +96,7 @@ export default function Home() {
             </div>
           </Link>
         </div>
+      </section>
 
         <div className="mt-12 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-900 text-center max-w-2xl">
           <p className="text-sm text-blue-800 dark:text-blue-200">
@@ -86,7 +104,20 @@ export default function Home() {
             for you. Sit tight!
           </p>
         </div>
-      </main>
+      </section>
     </div>
+  );
+}
+
+function FeatureCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
+  return (
+    <motion.div
+      whileHover={{ y: -5 }}
+      className="p-8 rounded-2xl bg-card border border-border/50 shadow-sm hover:shadow-md transition-all"
+    >
+      <div className="mb-4">{icon}</div>
+      <h3 className="text-xl font-bold mb-2">{title}</h3>
+      <p className="text-muted-foreground">{description}</p>
+    </motion.div>
   );
 }

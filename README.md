@@ -249,3 +249,24 @@ This project demonstrates three powerful rendering strategies available in the N
 If this app had 10x or 100x more users, relying solely on **SSR** would be expensive and slow, as every single page view hits the server and database.
 - **Move to SSG/ISR**: For public content (like parking site lists or blogs), we would move to **ISR**. This reduces the database load from 10,000 requests to just 1 request every 60 seconds, regardless of traffic.
 - **Keep SSR**: For the user dashboard (`/dashboard`) or booking confirmation, we must keep **SSR** (or client-side fetching) because the data is unique to each user.
+
+
+
+docker-compose up -d
+npm run dev
+
+
+Get AWS Credentials:
+
+Log in to AWS Console -> IAM -> Users.
+Create a user with AmazonS3FullAccess.
+Go to Security Credentials -> Create Access Key.
+Copy Access Key ID and Secret Access Key.
+Update .env: Open .env and fill in:
+
+AWS_ACCESS_KEY_ID="your_key"
+AWS_SECRET_ACCESS_KEY="your_secret"
+AWS_BUCKET_NAME="your-bucket-name"
+Sync Database: Since I added a new table, run:
+
+npx prisma db push

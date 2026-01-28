@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: zenpark-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: zenuser
+      POSTGRES_PASSWORD: zenpassword
+      POSTGRES_DB: zenpark
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+    container_name: zenpark-redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:
