@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import dbConnect from "@/lib/db";
+import { Vehicle } from "@/lib/models/Vehicle";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -10,16 +11,15 @@ export async function POST(req: Request) {
     }
 
     try {
+        await dbConnect();
         const body = await req.json();
         const { plate, model, size } = body;
 
-        const vehicle = await prisma.vehicle.create({
-            data: {
-                plate,
-                model,
-                size,
-                userId: session.user.id,
-            },
+        const vehicle = await Vehicle.create({
+            plate,
+            vehicleModel: model,
+            size,
+            userId: session.user.id,
         });
 
         return NextResponse.json(vehicle, { status: 201 });

@@ -1,4 +1,5 @@
-import { prisma } from "@/lib/prisma";
+import dbConnect from "@/lib/db";
+import { User } from "@/lib/models/User";
 import { hash } from "bcryptjs";
 import { userSchema } from "@/lib/schemas/userSchema";
 import { sendSuccess, sendError } from "@/lib/responseHandler";
@@ -7,13 +8,12 @@ import { ERROR_CODES } from "@/lib/errorCodes";
 
 export async function POST(req: Request) {
     try {
+        await dbConnect();
         const body = await req.json();
         const validatedData = userSchema.parse(body);
         const { email, password, role } = validatedData;
 
-        const existingUser = await prisma.user.findUnique({
-            where: { email },
-        });
+        const existingUser = await User.findOne({ email });
 
         if (existingUser) {
             return sendError(
@@ -28,16 +28,15 @@ export async function POST(req: Request) {
         // Map UI roles to Database roles if necessary
         const dbRole = role === "MANAGER" ? "ADMIN" : role === "ADMIN" ? "ADMIN" : "DRIVER";
 
-        const newUser = await prisma.user.create({
-            data: {
-                email,
-                password: hashedPassword,
-                role: dbRole,
-            },
+        const newUser = await User.create({
+            email,
+            password: hashedPassword,
+            role: dbRole,
         });
 
         // Strip password
-        const { password: newUserPassword, ...rest } = newUser;
+        const userObj = newUser.toObject();
+        const { password: newUserPassword, ...rest } = userObj;
 
         return sendSuccess({ user: rest }, "User created successfully", 201);
 

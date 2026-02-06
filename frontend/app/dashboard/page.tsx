@@ -12,6 +12,11 @@ export default function DashboardPage() {
     const router = useRouter();
 
     useEffect(() => {
+        if (status === "unauthenticated") {
+            router.replace("/auth/signin");
+            return;
+        }
+
         // @ts-ignore
         if (status === "authenticated" && session?.user?.role === "ADMIN") {
             router.replace("/admin");

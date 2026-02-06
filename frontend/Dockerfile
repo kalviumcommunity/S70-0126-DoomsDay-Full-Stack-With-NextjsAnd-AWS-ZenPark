@@ -11,7 +11,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Generate Prisma Client during build
-RUN npx prisma generate
+# Generate Prisma Client (Removed)
+# RUN npx prisma generate
 
 # Build Next.js
 RUN npm run build

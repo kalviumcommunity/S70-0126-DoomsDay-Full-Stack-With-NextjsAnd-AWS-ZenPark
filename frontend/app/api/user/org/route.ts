@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import dbConnect from "@/lib/db";
+import { User } from "@/lib/models/User";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -10,13 +11,15 @@ export async function POST(req: Request) {
     }
 
     try {
+        await dbConnect();
         const body = await req.json();
         const { name } = body;
 
-        const user = await prisma.user.update({
-            where: { id: session.user.id },
-            data: { name },
-        });
+        const user = await User.findByIdAndUpdate(
+            session.user.id,
+            { name },
+            { new: true }
+        );
 
         return NextResponse.json(user, { status: 200 });
     } catch (error) {
